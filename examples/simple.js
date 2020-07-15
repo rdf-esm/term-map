@@ -1,5 +1,5 @@
 import * as rdf from '@rdf-esm/data-model'
-import TermMap from'../index.js'
+import TermMap from '../index.js'
 
 const terms = new TermMap([
   [rdf.namedNode('http://example.org/'), { data: 1 }],
