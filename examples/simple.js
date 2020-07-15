@@ -1,5 +1,5 @@
-const rdf = require('@rdfjs/data-model')
-const TermMap = require('..')
+import * as rdf from '@rdf-esm/data-model'
+import TermMap from'../index.js'
 
 const terms = new TermMap([
   [rdf.namedNode('http://example.org/'), { data: 1 }],
