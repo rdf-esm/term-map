@@ -1,6 +1,6 @@
 {
   "name": "@rdf-esm/term-map",
-  "version": "1.0.0",
+  "version": "0.5.0",
   "description": "Map for RDF/JS Terms keys",
   "main": "index.js",
   "type": "module",
@@ -37,5 +37,11 @@
     "mocha": "^8.0.1",
     "c8": "^7.2.1",
     "standard": "^14.3.3"
+  },
+  "engines": {
+    "node": ">=12"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
