@@ -1,10 +1,11 @@
-const { strictEqual } = require('assert')
-const { describe, it } = require('mocha')
-const rdf = require('@rdfjs/data-model')
-const { termToNTriples } = require('@rdfjs/to-ntriples')
-const TermMap = require('..')
+/* globals describe, it */
 
-describe('@rdfjs/term-map', () => {
+import { strictEqual } from 'assert'
+import * as rdf from '@rdf-esm/data-model'
+import { termToNTriples } from '@rdf-esm/to-ntriples'
+import TermMap from '../index.js'
+
+describe('@rdf-esm/term-map', () => {
   it('should be a constructor', () => {
     strictEqual(typeof TermMap, 'function')
   })

@@ -1,15 +1,20 @@
 {
-  "name": "@rdfjs/term-map",
+  "name": "@rdf-esm/term-map",
   "version": "1.0.0",
   "description": "Map for RDF/JS Terms keys",
   "main": "index.js",
+  "type": "module",
+  "exports": {
+    "require": "./index.cjs",
+    "import": "./index.js"
+  },
   "scripts": {
-    "coverage": "codecov",
-    "test": "standard && nyc --reporter=lcov mocha"
+    "lint": "standard",
+    "test": "c8 --reporter=lcov mocha test/*.js"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/rdfjs-base/term-map.git"
+    "url": "git://github.com/rdf-esm/term-map.git"
   },
   "keywords": [
     "map",
@@ -20,17 +25,17 @@
   "author": "Thomas Bergwinkl <bergi@axolotlfarm.org> (https://www.bergnet.org/people/bergi/card#me)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rdfjs-base/term-map/issues"
+    "url": "https://github.com/rdf-esm/term-map/issues"
   },
-  "homepage": "https://github.com/rdfjs-base/term-map",
+  "homepage": "https://github.com/rdf-esm/term-map",
   "dependencies": {
-    "@rdfjs/to-ntriples": "^1.0.2"
+    "@rdf-esm/to-ntriples": "^0.5.0",
+    "@rdfjs/term-map": "^1.0.0"
   },
   "devDependencies": {
-    "@rdfjs/data-model": "^1.1.2",
-    "codecov": "^3.6.5",
-    "mocha": "^7.1.2",
-    "nyc": "^15.0.1",
+    "@rdf-esm/data-model": "^0.5.3",
+    "mocha": "^8.0.1",
+    "c8": "^7.2.1",
     "standard": "^14.3.3"
   }
 }
