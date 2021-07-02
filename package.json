@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/rdf-esm/term-map",
   "dependencies": {
-    "@rdf-esm/to-ntriples": "^0.5.0",
+    "@rdf-esm/to-ntriples": "^0.6.0",
     "@rdfjs/term-map": "^1.0.0"
   },
   "devDependencies": {

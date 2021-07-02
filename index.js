@@ -1,4 +1,4 @@
-import { termToNTriples } from '@rdf-esm/to-ntriples'
+import { toNT } from '@rdf-esm/to-ntriples'
 
 export default class TermMap {
   constructor (entries) {
@@ -20,7 +20,7 @@ export default class TermMap {
   }
 
   delete (term) {
-    return this.index.delete(termToNTriples(term))
+    return this.index.delete(toNT(term))
   }
 
   * entries () {
@@ -30,19 +30,19 @@ export default class TermMap {
   }
 
   forEach (callback, thisArg) {
-    for (const pair of this.entries()) {
-      callback.call(thisArg, pair)
+    for (const entry of this.entries()) {
+      callback.call(thisArg, entry[1], entry[0], this)
     }
   }
 
   get (term) {
-    const item = this.index.get(termToNTriples(term))
+    const item = this.index.get(toNT(term))
 
     return item && item.value
   }
 
   has (term) {
-    return this.index.has(termToNTriples(term))
+    return this.index.has(toNT(term))
   }
 
   * keys () {
@@ -52,7 +52,7 @@ export default class TermMap {
   }
 
   set (term, value) {
-    const key = termToNTriples(term)
+    const key = toNT(term)
 
     this.index.set(key, { term, value })
 

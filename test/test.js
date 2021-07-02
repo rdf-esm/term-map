@@ -2,7 +2,7 @@
 
 import { strictEqual } from 'assert'
 import * as rdf from '@rdf-esm/data-model'
-import { termToNTriples } from '@rdf-esm/to-ntriples'
+import { toNT } from '@rdf-esm/to-ntriples'
 import TermMap from '../index.js'
 
 describe('@rdf-esm/term-map', () => {
@@ -60,6 +60,20 @@ describe('@rdf-esm/term-map', () => {
       strictEqual(term0.equals([...termmap.index.values()][0].term), true)
     })
 
+    it('should delete the given Quad term', () => {
+      const subject = rdf.blankNode()
+      const predicate = rdf.namedNode('http://example.org/predicate')
+      const object = rdf.literal('example')
+      const term0 = rdf.quad(subject, predicate, object)
+      const term1 = rdf.namedNode('http://example.org/1')
+      const termmap = new TermMap([[term0, null], [term1, null]])
+
+      termmap.delete(term0)
+
+      strictEqual(termmap.index.size, 1)
+      strictEqual(term1.equals([...termmap.index.values()][0].term), true)
+    })
+
     it('should return true if the given term was deleted', () => {
       const term = rdf.namedNode('http://example.org/')
       const termmap = new TermMap([[term, null]])
@@ -110,7 +124,8 @@ describe('@rdf-esm/term-map', () => {
       const term1 = rdf.namedNode('http://example.org/1')
       const termmap = new TermMap([[term0, 0], [term1, 1]])
 
-      termmap.forEach(([term, value]) => {
+      termmap.forEach((value, term, map) => {
+        strictEqual(map, termmap)
         data.push({ term, value })
       })
 
@@ -139,6 +154,19 @@ describe('@rdf-esm/term-map', () => {
       strictEqual(result, 1)
     })
 
+    it('should return the value for the given Quad term', () => {
+      const subject = rdf.blankNode()
+      const predicate = rdf.namedNode('http://example.org/predicate')
+      const object = rdf.literal('example')
+      const term0 = rdf.quad(subject, predicate, object)
+      const term1 = rdf.namedNode('http://example.org/1')
+      const termmap = new TermMap([[term0, 0], [term1, 1]])
+
+      const result = termmap.get(term0)
+
+      strictEqual(result, 0)
+    })
+
     it('should return undefined if there is no value for the given term', () => {
       const term0 = rdf.namedNode('http://example.org/0')
       const term1 = rdf.namedNode('http://example.org/1')
@@ -163,6 +191,17 @@ describe('@rdf-esm/term-map', () => {
       const termmap = new TermMap([[term0, 0], [term1, 1]])
 
       strictEqual(termmap.has(term1), true)
+    })
+
+    it('should return true if it contains the given Quad term', () => {
+      const subject = rdf.blankNode()
+      const predicate = rdf.namedNode('http://example.org/predicate')
+      const object = rdf.literal('example')
+      const term0 = rdf.quad(subject, predicate, object)
+      const term1 = rdf.namedNode('http://example.org/1')
+      const termmap = new TermMap([[term0, 0], [term1, 1]])
+
+      strictEqual(termmap.has(term0), true)
     })
 
     it('should return false if it doesn\'t contain the given term', () => {
@@ -210,7 +249,24 @@ describe('@rdf-esm/term-map', () => {
       const entries = [...termmap.index]
 
       strictEqual(entries.length, 1)
-      strictEqual(entries[0][0], termToNTriples(term))
+      strictEqual(entries[0][0], toNT(term))
+      strictEqual(term.equals(entries[0][1].term), true)
+      strictEqual(entries[0][1].value, 1)
+    })
+
+    it('should add the given Quad entry to the index', () => {
+      const subject = rdf.blankNode()
+      const predicate = rdf.namedNode('http://example.org/predicate')
+      const object = rdf.literal('example')
+      const term = rdf.quad(subject, predicate, object)
+      const termmap = new TermMap()
+
+      termmap.set(term, 1)
+
+      const entries = [...termmap.index]
+
+      strictEqual(entries.length, 1)
+      strictEqual(entries[0][0], toNT(term))
       strictEqual(term.equals(entries[0][1].term), true)
       strictEqual(entries[0][1].value, 1)
     })
@@ -226,7 +282,7 @@ describe('@rdf-esm/term-map', () => {
       const entries = [...termmap.index]
 
       strictEqual(entries.length, 1)
-      strictEqual(entries[0][0], termToNTriples(term0))
+      strictEqual(entries[0][0], toNT(term0))
       strictEqual(term0.equals(entries[0][1].term), true)
       strictEqual(entries[0][1].value, 1)
     })
